@@ -1,11 +1,30 @@
 (async () => {
     try {
         const fp = await (await import('https://fpjscdn.net/v3/KDOFEu4EComVHSKj6vyu')).load();
-        const result = await fp.get();
-        const visitorId = result.visitorId;
+        const results = await fp.get({ extendedResult: true });
+        const result = JSON.stringify(results, null, 2);
+        const visitorId = results.visitorId;
+        const requestId = results.requestId;
 
         document.getElementById('visitor-id').textContent = visitorId;
-        console.log(JSON.stringify(result, null, 2));
+        document.getElementById('request-id').textContent = requestId;
+        console.log('Full JSON result from the Client:\n\n', result);
+
+        fetch('http://localhost:3001/', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: result
+        }).then(response => response.json())
+        .then(data => {
+            console.log('Response from server:\n\n', data);
+            document.getElementById('data-id').textContent = data;
+        })
+        .catch(error => {
+            console.error('Fetch Error:', error);
+        });
+
     } catch (error) {
         console.error(`Error loading FingerprintJS: ${error}`);
     }

@@ -1,33 +1,27 @@
-import {
-  FingerprintJsServerApiClient,
-  Region,
-} from '@fingerprintjs/fingerprintjs-pro-server-api'
+import { FingerprintJsServerApiClient, Region } from '@fingerprintjs/fingerprintjs-pro-server-api'
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
-const express = require('express');
 const app = express();
-const port = 3001;
+app.use(express.json());
+app.use(cors());
+dotenv.config();
 
 const client = new FingerprintJsServerApiClient({
-  apiKey: process.env.PRIVATE_API_KEY, // Replace with your key
-  region: Region.Global, // Replace with your region
+  apiKey: process.env.PRIVATE_API_KEY,
+  region: Region.Global,
 })
 
-app.get('/', (req, res) => {
-  // Get visit history of a specific visitor
-  client.getVisits('VISITOR_ID').then((visitorHistory) => {
-    const history = visitorHistory;
-    res.send(`Well, hello there. Here's your visit history: ${history}`);
-  });
-});
-
 app.post('/', (req, res) => {
-  // grab req object to get the requestId from client
-  const body = req.body.result;
-  const requestId = body.requestId;
+  const requestId = req.body.requestId;
 
-  console.log(`Request ID: ${requestId}`);
+  client.getEvent(requestId).then((data) => { 
+    const event = JSON.stringify(data, null, 2);
+    res.json(event);
+  })
 });
 
-app.listen(port, () => {
-  console.log(`App listening on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`App listening on port ${process.env.PORT}`);
 });
