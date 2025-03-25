@@ -28,6 +28,10 @@ app.get("/", (req, res) => {
   res.status(200).send("Well, hello there!");
 });
 
+app.get("/health", (req, res) => {
+  res.status(200).send("Healthy!");
+});
+
 app.post("/", (req, res) => {
   const requestId = req.body.requestId;
 
