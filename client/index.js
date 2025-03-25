@@ -12,7 +12,7 @@
     document.getElementById("request-id").textContent = requestId;
     console.log("Full JSON result from the Client:\n\n", result);
 
-    fetch("https://prototype-backend-hw7a.onrender.com:3002/", {
+    fetch("https://prototype-backend-hw7a.onrender.com/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
