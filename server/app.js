@@ -24,6 +24,10 @@ const client = new FingerprintJsServerApiClient({
   region: Region.Global,
 });
 
+app.get("/", (req, res) => {
+  res.status(200).send("Well, hello there!");
+});
+
 app.post("/", (req, res) => {
   const requestId = req.body.requestId;
 
