@@ -4,6 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 const app = express();
+const port = process.env.PORT || 3001;
+
 app.use(express.json());
 app.use(cors());
 dotenv.config();
@@ -22,6 +24,6 @@ app.post('/', (req, res) => {
   })
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`App listening on port ${process.env.PORT}`);
+app.listen(port, () => {
+  console.log(`App listening on port ${port}`);
 });
