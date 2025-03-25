@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: "https://prototype-client.onrender.com",
-    methods: ["POST", "OPTIONS"],
+    methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
   })
 );
