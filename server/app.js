@@ -11,9 +11,20 @@ const port = process.env.PORT || 3001;
 
 dotenv.config();
 app.use(express.json());
+
+const allowedOrigins = [
+  "https://prototype-client.onrender.com",
+  "https://projectshowcase.dev",
+  "projectshowcase.dev",
+];
+
 app.use(
   cors({
-    origin: "https://prototype-client.onrender.com",
+    origin: (origin, callback) => {
+      allowedOrigins.includes(origin) || !origin
+        ? callback(null, true)
+        : callback(new Error("Not allowed by CORS"));
+    },
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
   })
