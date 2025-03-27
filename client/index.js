@@ -1,13 +1,15 @@
 (async () => {
   try {
-    const fp = await (
-      await import("https://fpjscdn.net/v3/KDOFEu4EComVHSKj6vyu")
-    ).load({
-      apiKey: "KDOFEu4EComVHSKj6vyu",
-      endpoint: "https://fp.projectshowcase.dev",
-      scriptUrlPattern:
-        "https://fp.projectshowcase.dev/web/v<version>/<apiKey>/loader_v<loaderVersion>.js",
+    const FingerprintJS = await import(
+      "https://fp.projectshowcase.dev/web/v3/KDOFEu4EComVHSKj6vyu"
+    );
+    const fp = await FingerprintJS.load({
+      endpoint: [
+        "https://fp.projectshowcase.dev",
+        FingerprintJS.defaultEndpoint,
+      ],
     });
+
     const results = await fp.get({ extendedResult: true });
     const result = JSON.stringify(results, null, 2);
     const visitorId = results.visitorId;
