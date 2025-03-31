@@ -50,13 +50,13 @@ app.post("/", (req, res) => {
 
 app.post("/webhook", (req, res) => {
   (async () => {
-    console.log("Entire request object: ", req);
+    //console.log("Entire request object: ", req);
     console.log("Entire headers object: ", req.headers);
     console.log("Specific header: ", req.headers["fpjs-event-signature"]);
     try {
       const secret = process.env.WEBHOOK_SIGNATURE_SECRET
       const header = req.headers["fpjs-event-signature"];
-      const data = req.body;
+      const data = JSON.stringify(req.body);
   
       if (!secret) {
         return res.status(500).json('Secret is not set.');
