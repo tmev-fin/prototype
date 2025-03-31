@@ -1,4 +1,4 @@
-import { FingerprintJsServerApiClient, Region } from "@fingerprintjs/fingerprintjs-pro-server-api";
+import { FingerprintJsServerApiClient, Region, isValidWebhookSignature } from "@fingerprintjs/fingerprintjs-pro-server-api";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -12,7 +12,8 @@ app.use(express.json());
 const allowedOrigins = [
   "https://prototype-client.onrender.com",
   "https://projectshowcase.dev",
-  "projectshowcase.dev"
+  "projectshowcase.dev",
+  "http://127.0.0.1:5500"
 ];
 
 app.use(
@@ -48,8 +49,33 @@ app.post("/", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
-  const visitorId = req.body.visitorId;
-  res.status(200).send(`Webhook received! Here's your visitor ID: ${(visitorId)}`);
+  (async () => {
+    console.log("Entire request object: ", req);
+    console.log("Entire headers object: ", req.headers);
+    console.log("Specific header: ", req.headers["fpjs-event-signature"]);
+    try {
+      const secret = process.env.WEBHOOK_SIGNATURE_SECRET
+      const header = req.headers["fpjs-event-signature"];
+      const data = req.body;
+  
+      if (!secret) {
+        return res.status(500).json('Secret is not set.');
+      }
+  
+      if (!header) {
+        return res.status(400).json('fpjs-event-signature header not found.');
+      }
+  
+      if (!isValidWebhookSignature({ header, data, secret })) {
+        return res.status(403).json('Webhook signature is invalid.');
+      }
+  
+      const visitorId = req.body.visitorId;
+      return res.status(200).json(`Webhook received! Here's your visitor ID: ${(visitorId)}`);
+    } catch (error) {
+      return res.status(500).json(`Error: ${error}`);
+    }
+  })();
 });
 
 app.listen(port, () => {

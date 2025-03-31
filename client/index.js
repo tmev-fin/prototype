@@ -19,6 +19,7 @@
 
     try {
       const response = await fetch("https://prototype-backend-hw7a.onrender.com/", {
+      // const response = await fetch("http://localhost:3001/", { // for local use
         method: "POST",
         headers: {
           "Content-Type": "application/json",
