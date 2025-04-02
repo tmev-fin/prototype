@@ -15,7 +15,7 @@
 
     document.getElementById("visitor-id").textContent = visitorId;
     document.getElementById("request-id").textContent = requestId;
-    console.log("Full JSON result from the Client:\n\n", result);
+    //console.log("Full JSON result from the Client:\n\n", result);
 
     try {
       const response = await fetch("https://prototype-backend-hw7a.onrender.com/", {
@@ -28,7 +28,7 @@
       });
 
       const data = await response.json();
-      console.log("Response from server:\n\n", data);
+      //console.log("Response from server:\n\n", data);
       document.getElementById("data-id").textContent = data;
     } catch (fetchError) {
       console.error("Error performing Fetch Request:", fetchError);
