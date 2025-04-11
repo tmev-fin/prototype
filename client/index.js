@@ -186,4 +186,23 @@
     sessionStorage.removeItem('username');
     window.location.reload();
   });
+
+  // ----- Wipe users functionality -----
+  const wipeBtn = document.getElementById('press');
+
+  wipeBtn.addEventListener('click', async () => {
+    // prod: "https://prototype-backend-hw7a.onrender.com/wipe"
+    // dev: "http://localhost:3001/wipe"
+    const response = await fetch('https://prototype-backend-hw7a.onrender.com/wipe', {
+      method: 'POST',
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      alert(`Error: ${result.message}`);
+    } else {
+      alert(result.message);
+    }
+  });
 })();

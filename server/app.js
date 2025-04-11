@@ -21,7 +21,7 @@ const allowedOrigins = [
   'http://127.0.0.1:5500',
 ];
 
-const users = [];
+let users = [];
 
 app.use(
   cors({
@@ -160,6 +160,15 @@ app.post('/webhook', (req, res) => {
       return res.status(500).json(`Error: ${error}`);
     }
   })();
+});
+
+app.post('/wipe', (req, res) => {
+  try {
+    users = [];
+  } catch (error) {
+    return res.status(500).json({ message: `Error: ${error}` });
+  }
+  return res.status(200).json({ message: 'All users wiped successfully!' });
 });
 
 async function completeSignIn(user, email, res) {
