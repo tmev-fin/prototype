@@ -62,7 +62,7 @@
 
       // prod: "https://prototype-backend-hw7a.onrender.com/signin"
       // dev: "http://localhost:3001/signin"
-      const response = await fetch('http://localhost:3001/signin', {
+      const response = await fetch('https://prototype-backend-hw7a.onrender.com/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,7 +87,7 @@
 
             // prod: "https://prototype-backend-hw7a.onrender.com/verify"
             // dev: "http://localhost:3001/verify"
-            const response = await fetch('http://localhost:3001/verify', {
+            const response = await fetch('https://prototype-backend-hw7a.onrender.com/verify', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -135,7 +135,7 @@
 
       // prod: "https://prototype-backend-hw7a.onrender.com/register"
       // dev: "http://localhost:3001/register"
-      const response = await fetch('http://localhost:3001/register', {
+      const response = await fetch('https://prototype-backend-hw7a.onrender.com/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
