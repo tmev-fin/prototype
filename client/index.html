@@ -1,15 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <img src="FP-Horizontal-OrangeBlack.svg" alt="FingerprintJS Logo">
+  <head>
     <title>FingerprintJS Prototype</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1>Prototype Project</h1>
-    <p>Your Visitor ID: <br> <span id="visitor-id">Loading...</span></p>
-    <p>Your Request ID: <br> <span id="request-id">Loading...</span></p>
-    <p>Your Smart Signals: <br> <span id="data-id">Loading...</span></p>
-</body>
-<script src="index.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="./assets/FP-Orange-Transparent-Favicon-32x32.svg" type="image/svg" />
+    <link
+      id="theme-stylesheet"
+      rel="stylesheet"
+      href="https://backers.webawesome.com/dist/styles/themes/active.css"
+      render="blocking"
+      fetchpriority="high" />
+    <link
+      rel="stylesheet"
+      href="https://early.webawesome.com/webawesome@3.0.0-alpha.12/dist/styles/brand/orange.css" />
+    <link rel="stylesheet" href="https://backers.webawesome.com/dist/styles/webawesome.css" />
+    <link
+      id="color-stylesheet"
+      rel="stylesheet"
+      href="https://backers.webawesome.com/dist/styles/utilities.css" />
+    <link rel="stylesheet" href="https://backers.webawesome.com/dist/styles/forms.css" />
+    <script src="index.js" defer></script>
+    <script
+      type="module"
+      src="https://early.webawesome.com/webawesome@3.0.0-alpha.12/dist/webawesome.loader.js"></script>
+  </head>
+  <body>
+    <wa-page mobile-breakpoint="920">
+      <header slot="header" class="wa-split">
+        <div class="wa-split">
+          <wa-icon src="./assets/FP-Horizontal-OrangeBlack.svg" style="font-size: 3rem"></wa-icon>
+          <div class="wa-cluster">
+            <a href="#">Product</a>
+            <a href="#">Use Cases</a>
+            <a href="#">Developers</a>
+            <a href="#">Resources</a>
+            <a href="#">Demo</a>
+            <a href="#">Store</a>
+          </div>
+          <div class="wa-cluster wa-gap-xs">
+            <wa-dialog label="Dialog" light-dismiss class="dialog-signin">
+              <form class="signin-form">
+                <div class="wa-stack">
+                  <div slot="header">
+                    <wa-icon
+                      src="./assets/FP-Horizontal-OrangeBlack.svg"
+                      style="font-size: 2.5rem"></wa-icon>
+                  </div>
+                  <wa-input
+                    type="email"
+                    label="Email"
+                    placeholder="you@example.com"
+                    required></wa-input>
+                  <wa-input
+                    type="password"
+                    label="Password"
+                    placeholder="**********"
+                    required></wa-input>
+                  <p>
+                    New to Fingerprint?
+                    <a href="#" variant="brand" class="registerLink">Register</a>
+                  </p>
+                  <wa-button id="signin-btn" type="submit" variant="neutral">Sign In</wa-button>
+                </div>
+              </form>
+            </wa-dialog>
+            <wa-button class="wa-plain wa-brand wa-size-s">Sign In</wa-button>
+
+            <wa-dialog label="Dialog" light-dismiss class="dialog-register">
+              <form class="register-form">
+                <div class="wa-stack">
+                  <div slot="header">
+                    <wa-icon
+                      src="./assets/FP-Horizontal-OrangeBlack.svg"
+                      style="font-size: 2.5rem"></wa-icon>
+                  </div>
+                  <wa-input
+                    type="email"
+                    label="Email"
+                    placeholder="you@example.com"
+                    required></wa-input>
+                  <wa-input
+                    type="password"
+                    label="Password"
+                    placeholder="**********"
+                    required></wa-input>
+                  <p>
+                    Already a Fingerprint user?
+                    <a href="#" variant="brand" class="signinLink">Sign In</a>
+                  </p>
+                  <wa-button id="register-btn" type="submit" variant="brand">Register</wa-button>
+                </div>
+              </form>
+            </wa-dialog>
+            <wa-button class="wa-accent wa-outlined wa-brand wa-size-s">Register</wa-button>
+
+            <wa-dialog label="Dialog" light-dismiss class="dialog-mfa">
+              <form class="mfa-form">
+                <div class="wa-stack">
+                  <div slot="header">
+                    <wa-icon
+                      src="./assets/FP-Horizontal-OrangeBlack.svg"
+                      style="font-size: 2.5rem"></wa-icon>
+                  </div>
+                  <wa-input
+                    type="number"
+                    label="Multi-Factor Authentication Code"
+                    placeholder="enter your MFA code"
+                    required>
+                  </wa-input>
+                  <wa-button id="signin-btn" type="submit" variant="brand">Submit</wa-button>
+                </div>
+              </form>
+            </wa-dialog>
+          </div>
+          <div id="logout-info" style="display: none" class="wa-gap-m">
+            <wa-button id="logout-btn" class="wa-outlined wa-brand wa-size-s">Log Out</wa-button>
+          </div>
+        </div>
+      </header>
+      <nav slot="subheader">
+        <div class="wa-cluster" style="flex-wrap: nowrap">
+          <wa-icon-button data-toggle-nav name="bars" label="Menu"></wa-icon-button>
+          <wa-breadcrumb style="font-size: var(--wa-font-size-s)">
+            <wa-breadcrumb-item>Home</wa-breadcrumb-item>
+            <wa-breadcrumb-item>Shop</wa-breadcrumb-item>
+            <wa-breadcrumb-item>Merch</wa-breadcrumb-item>
+          </wa-breadcrumb>
+        </div>
+        <wa-input
+          id="search"
+          class="wa-desktop-only"
+          placeholder="Search Shop"
+          size="small"
+          style="max-inline-size: 16rem">
+          <wa-icon slot="prefix" name="magnifying-glass"></wa-icon>
+        </wa-input>
+      </nav>
+      <nav slot="navigation-header">
+        <div class="wa-flank">
+          <wa-avatar image="" class="user-avatar"></wa-avatar>
+          <span></span>
+          <div class="wa-stack wa-gap-3xs">
+            <span class="username wa-heading-s" id="user-display">User</span>
+            <wa-tooltip
+              for="user-display"
+              placement="bottom"
+              style="display: none"
+              id="tooltip-display"
+              ><span id="tooltip-text"></span
+            ></wa-tooltip>
+            <span class="username wa-caption-s" lang="la"><em>Sign In to Purchase</em></span>
+          </div>
+        </div>
+      </nav>
+      <nav slot="navigation">
+        <div class="wa-flank">
+          <wa-icon src="./assets/FP-Icon-Black.svg" style="font-size: 1.2rem"></wa-icon>
+          <a href="#shirts">Shirts, Hoodies & Corporate Goodies</a>
+        </div>
+        <div class="wa-flank">
+          <wa-icon src="./assets/FP-Icon-Black.svg" style="font-size: 1.2rem"></wa-icon>
+          <a href="#mugs">Pour Decisions</a>
+        </div>
+        <div class="wa-flank">
+          <wa-icon src="./assets/FP-Icon-Black.svg" style="font-size: 1.2rem"></wa-icon>
+          <a href="#tech">Tech & Trinkets</a>
+        </div>
+      </nav>
+      <header slot="main-header">
+        <div
+          class="wa-flank:end wa-border-radius-l wa-dark"
+          style="
+            background-color: var(--wa-color-surface-lowered);
+            --content-percentage: 35%;
+            padding: var(--wa-space-m);
+          ">
+          <div class="wa-stack" style="margin: var(--wa-space-2xl)">
+            <h1><span style="color: rgb(255, 140, 0)">Fingerprint</span> Merch HQ</h1>
+            <wa-divider></wa-divider>
+            <div class="wa-cluster wa-gap-xs">
+              <wa-tag size="small">#We Are Global</wa-tag>
+              <wa-tag size="small">#No Nonsense</wa-tag>
+              <wa-tag size="small">#Don't Take Yourself Too Seriously</wa-tag>
+            </div>
+            <span class="wa-caption-l"
+              >Get ready to fill your cart with the finest in corporate-approved swag! Whether
+              you’re looking to rep your company in style or just need an extra coffee mug because
+              someone definitely stole yours, we’ve got what you need.</span
+            >
+          </div>
+          <div
+            class="wa-frame"
+            style="border-radius: var(--wa-border-radius-l); max-inline-size: 40ch">
+            <img src="https://plus.unsplash.com/premium_photo-1683746792239-6ce8cdd3ac78?q=20" />
+          </div>
+        </div>
+      </header>
+      <main class="wa-body-l">
+        <h2 id="shirts">Shirts, Hoodies & Corporate Goodies</h2>
+        <div class="wa-grid">
+          <wa-card with-image appearance="plain">
+            <img src="./assets/fp-shirt.jpg" alt="shirt" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Sweatshirt</span>
+              <span class="wa-caption-s" lang="la"
+                ><em>"Like a Hug, But From a Sweatshirt"</em></span
+              >
+              <span class="wa-heading-s">$ 59.99</span>
+              <wa-rating label="Rating" value="4.5" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+          <wa-card with-image appearance="plain">
+            <img src="./assets/fp-tshirt.jpg" alt="tshirt" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Shirt</span>
+              <span class="wa-caption-s" lang="la"
+                ><em>"Soft, Stylish, and Subtly Branded"</em></span
+              >
+              <span class="wa-heading-s">$ 24.99</span>
+              <wa-rating label="Rating" value="4" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+          <wa-card with-image appearance="plain">
+            <img src="./assets/fp-longsleeve.jpg" alt="longsleeve" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Longsleeve</span>
+              <span class="wa-caption-s" lang="la"
+                ><em>"More Sleeve, More Comfort, More Style"</em></span
+              >
+              <span class="wa-heading-s">$ 39.99</span>
+              <wa-rating label="Rating" value="4" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+          <wa-card with-image appearance="plain">
+            <img src="./assets/fp-hoodie.jpg" alt="hoodie" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Hoodie</span>
+              <span class="wa-caption-s" lang="la"><em>"May Cause Extreme Comfort"</em></span>
+              <span class="wa-heading-s">$ 59.99</span>
+              <wa-rating label="Rating" value="5" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+          <wa-card with-image appearance="plain">
+            <img src="./assets/fp-windbreaker.jpg" alt="windbreaker" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Windbreaker</span>
+              <span class="wa-caption-s" lang="la"><em>"Wind Has Met Its Match"</em></span>
+              <span class="wa-heading-s">$ 89.99</span>
+              <wa-rating label="Rating" value="4.5" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+          <wa-card with-image appearance="plain">
+            <img src="./assets/fp-polo.jpg" alt="polo" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Polo</span>
+              <span class="wa-caption-s" lang="la"><em>"Effortlessly Cool"</em></span>
+              <span class="wa-heading-s">$139.99</span>
+              <wa-rating label="Rating" value="5" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+        </div>
+        <h2 id="mugs">Pour Decisions</h2>
+        <div class="wa-grid">
+          <wa-card with-image>
+            <img src="./assets/fp_mug.jpg" alt="mug" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Mug</span>
+              <span class="wa-caption-s" lang="la"><em>"The Quenchiest"</em></span>
+              <span class="wa-heading-s">$ 9.99</span>
+              <wa-rating label="Rating" value="5" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+          <wa-card with-image>
+            <img src="./assets/fp-tumbler.jpg" alt="mug" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Tumbler</span>
+              <span class="wa-caption-s" lang="la"
+                ><em>"Keeps Drinks Hot, Cold, and Office Gossip Spicy"</em></span
+              >
+              <span class="wa-heading-s">$ 29.99</span>
+              <wa-rating label="Rating" value="4.5" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+          <wa-card with-image>
+            <img src="./assets/fp-bottle.jpg" alt="mug" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Bottle</span>
+              <span class="wa-caption-s" lang="la"
+                ><em>"Big Bottle, Big Hydration Energy"</em></span
+              >
+              <span class="wa-heading-s">$ 39.99</span>
+              <wa-rating label="Rating" value="4" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+          <wa-card with-image>
+            <img src="./assets/fp-wine-tumbler.jpg" alt="mug" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Wine Tumbler</span>
+              <span class="wa-caption-s" lang="la"><em>"Sip Happens—Do It in Style"</em></span>
+              <span class="wa-heading-s">$ 19.99</span>
+              <wa-rating label="Rating" value="4" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+        </div>
+
+        <h2 id="tech">Tech & Trinkets</h2>
+        <div class="wa-grid">
+          <wa-card with-image>
+            <img src="./assets/fp-earbuds.jpg" alt="earbuds" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Earbuds</span>
+              <span class="wa-caption-s" lang="la"><em>"Work Hard, Jam Harder"</em></span>
+              <span class="wa-heading-s">$49.99</span>
+              <wa-rating label="Rating" value="4" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+          <wa-card with-image>
+            <img src="./assets/fp-grip.jpg" alt="grip" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Phone Grip</span>
+              <span class="wa-caption-s" lang="la"
+                ><em>“Never Drop Your Phone Again—Probably"</em></span
+              >
+              <span class="wa-heading-s">$ 19.99</span>
+              <wa-rating label="Rating" value="5" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+          <wa-card with-image>
+            <img src="./assets/fp-speaker.jpg" alt="speaker" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Speaker</span>
+              <span class="wa-caption-s" lang="la"
+                ><em>"“From Desk to Dance Floor in Seconds"</em></span
+              >
+              <span class="wa-heading-s">$ 49.99</span>
+              <wa-rating label="Rating" value="5" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+          <wa-card with-image>
+            <img src="./assets/fp-tote.jpg" alt="tote" slot="image" />
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Canvas Tote</span>
+              <span class="wa-caption-s" lang="la"><em>"Tote-ally Perfect"</em></span>
+              <span class="wa-heading-s">$ 9.99</span>
+              <wa-rating label="Rating" value="40" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </wa-card>
+        </div>
+      </main>
+      <aside slot="aside" class="wa-desktop-only">
+        <div class="wa-flank">
+          <wa-icon slot="prefix" name="money-bill-trend-up" style="font-size: 1.5em"></wa-icon>
+          <h2 class="wa-heading-m">Top Sellers:</h2>
+        </div>
+        <wa-card with-image>
+          <img src="./assets/fp-shirt.jpg" alt="shirt" slot="image" />
+          <div class="wa-stack wa-gap-xs">
+            <span class="wa-heading-s">Fingerprint Sweatshirt</span>
+            <span class="wa-caption-s" lang="la"><em>"Like a Hug, But From a Sweatshirt"</em></span>
+            <span class="wa-heading-s">$ 59.99</span>
+            <wa-rating label="Rating" value="4.5" size="small" readonly></wa-rating>
+            <wa-divider style="--spacing: 2rem"></wa-divider>
+            <wa-button variant="brand">Add to Cart</wa-button>
+          </div>
+        </wa-card>
+        <wa-card with-image>
+          <img src="./assets/fp_mug.jpg" alt="mug" slot="image" />
+          <div class="wa-stack wa-gap-xs">
+            <span class="wa-heading-s">Fingerprint Mug</span>
+            <span class="wa-caption-s" lang="la"><em>"The Quenchiest"</em></span>
+            <span class="wa-heading-s">$ 19.99</span>
+            <wa-rating label="Rating" value="5" size="small" readonly></wa-rating>
+            <wa-divider style="--spacing: 2rem"></wa-divider>
+            <wa-button variant="brand">Add to Cart</wa-button>
+          </div>
+        </wa-card>
+        <wa-card with-image>
+          <img src="./assets/fp-earbuds.jpg" alt="earbuds" slot="image" />
+          <div class="wa-stack wa-gap-xs">
+            <span class="wa-heading-s">Fingerprint Earbuds</span>
+            <span class="wa-caption-s" lang="la"><em>"Work Hard, Jam Harder"</em></span>
+            <span class="wa-heading-s">$49.99</span>
+            <wa-rating label="Rating" value="4" size="small" readonly></wa-rating>
+            <wa-divider style="--spacing: 2rem"></wa-divider>
+            <wa-button variant="brand">Add to Cart</wa-button>
+          </div>
+        </wa-card>
+        <wa-card with-image>
+          <img src="./assets/fp-polo.jpg" alt="polo" slot="image" />
+          <div class="wa-split">
+            <div class="wa-stack wa-gap-xs">
+              <span class="wa-heading-s">Fingerprint Polo</span>
+              <span class="wa-caption-s" lang="la"><em>"Effortlessly Cool"</em></span>
+              <span class="wa-heading-s">$139.99</span>
+              <wa-rating label="Rating" value="5" size="small" readonly></wa-rating>
+              <wa-divider style="--spacing: 2rem"></wa-divider>
+              <wa-button variant="brand">Add to Cart</wa-button>
+            </div>
+          </div>
+        </wa-card>
+      </aside>
+      <footer slot="footer" class="wa-grid wa-gap-xl">
+        <div class="wa-cluster" style="flex-wrap: nowrap">
+          <wa-icon src="./assets/FP-Horizontal-OrangeBlack.svg" style="font-size: 2.5rem"></wa-icon>
+        </div>
+        <div class="wa-stack">
+          <h3 class="wa-heading-xs">Product</h3>
+          <a href="#">Device Intelligence Platform</a>
+          <a href="#">Integrations</a>
+          <a href="#">Demo</a>
+        </div>
+        <div class="wa-stack">
+          <h3 class="wa-heading-xs">Resources</h3>
+          <a href="#">Resource Center</a>
+          <a href="#">Blog</a>
+          <a href="#">FAQ</a>
+        </div>
+        <div class="wa-stack">
+          <h3 class="wa-heading-xs">Developers</h3>
+          <a href="#">Documentation</a>
+          <a href="#">Tutorials</a>
+          <a href="#">SDKs and Libraries</a>
+        </div>
+        <div class="wa-stack">
+          <h3 class="wa-heading-xs">Company</h3>
+          <a href="#">About us</a>
+          <a href="#">Careers</a>
+          <a href="#">Press</a>
+        </div>
+      </footer>
+    </wa-page>
+  </body>
 </html>

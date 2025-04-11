@@ -12,8 +12,14 @@
   "description": "",
   "dependencies": {
     "@fingerprintjs/fingerprintjs-pro-server-api": "^6.3.0",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "eslint": "^9.24.0",
+    "globals": "^16.0.0"
   }
 }
